@@ -1,3 +1,6 @@
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;700&display=swap');
 
 :root {
@@ -12,90 +15,41 @@
   --glass-border: rgba(255, 255, 255, 0.1);
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+@layer base {
+  body {
+    @apply font-inter bg-bg text-text overflow-x-hidden leading-relaxed;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-outfit font-bold tracking-tight;
+  }
 }
 
-body {
-  font-family: 'Inter', sans-serif;
-  background-color: var(--bg);
-  color: var(--text);
-  overflow-x: hidden;
-  line-height: 1.5;
-}
+@layer components {
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-br from-white to-primary/60;
+  }
 
-h1,
-h2,
-h3,
-h4 {
-  font-family: 'Outfit', sans-serif;
-  font-weight: 700;
-  letter-spacing: -0.025em;
-}
+  .glass-card {
+    @apply bg-glass backdrop-blur-xl border border-glass-border rounded-2xl;
+  }
 
-.gradient-text {
-  background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+  .btn-primary {
+    @apply bg-primary text-white px-6 py-3 rounded-lg font-semibold cursor-pointer transition-all duration-200 shadow-[0_4px_14px_0_var(--primary-glow)] hover:-translate-y-0.5 hover:shadow-[0_6px_20px_0_var(--primary-glow)] disabled:opacity-50 disabled:cursor-not-allowed;
+  }
 
-.glass-card {
-  background: var(--glass);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
-  border-radius: 1rem;
-}
+  .btn-secondary {
+    @apply bg-transparent text-white border border-border px-6 py-3 rounded-lg font-semibold cursor-pointer transition-all duration-200 hover:bg-white/5;
+  }
 
-.btn-primary {
-  background: var(--primary);
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 14px 0 var(--primary-glow);
-}
+  .input-field {
+    @apply bg-white/[0.03] border border-border px-4 py-3 rounded-lg text-white w-full text-base transition-colors duration-200 focus:outline-none focus:border-primary;
+  }
 
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px 0 var(--primary-glow);
-}
-
-.btn-secondary {
-  background: transparent;
-  color: white;
-  border: 1px solid var(--border);
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.input-field {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border);
-  padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
-  color: white;
-  width: 100%;
-  font-size: 1rem;
-  transition: border-color 0.2s;
-}
-
-.input-field:focus {
-  outline: none;
-  border-color: var(--primary);
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
+  .container {
+    @apply max-w-[1200px] mx-auto px-6 sm:px-8;
+  }
 }

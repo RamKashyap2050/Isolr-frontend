@@ -1,50 +1,59 @@
 const Lifecycle = () => {
   return (
-    <div>
-      <div style={{ marginBottom: '3rem' }}>
-        <p style={{ color: 'var(--primary)', fontWeight: '600', marginBottom: '0.5rem' }}>03. Management</p>
-        <h1 className="gradient-text" style={{ fontSize: '3.5rem', marginBottom: '1.5rem' }}>Lifecycle Management</h1>
-        <p style={{ fontSize: '1.2rem', color: 'var(--text-dim)', lineHeight: '1.6' }}>
+    <div className="space-y-12">
+      <div className="mb-12">
+        <p className="text-primary font-semibold mb-2">03. Management</p>
+        <h1 className="gradient-text text-4xl md:text-6xl mb-6">Lifecycle Management</h1>
+        <p className="text-lg md:text-xl text-text-dim leading-relaxed">
           Automating the birth, suspension, and deletion of tenant environments.
         </p>
       </div>
 
-      <section style={{ marginBottom: '4rem' }}>
-        <h2 style={{ fontSize: '2rem', marginBottom: '1.5rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem' }}>3.1 Tenant States</h2>
-        <div style={{ padding: '2rem', background: 'rgba(255,255,255,0.02)', borderRadius: '1rem', border: '1px solid var(--border)', textAlign: 'center' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
-            <StateBox label="Provisioning" color="#6366f1" />
+      <section>
+        <h2 className="text-2xl md:text-3xl mb-6 border-b border-white/10 pb-2">3.1 Tenant States</h2>
+        <div className="p-8 bg-white/[0.02] border border-white/10 rounded-2xl">
+          <div className="flex flex-col md:flex-row justify-around items-center gap-4">
+            <StateBox label="Provisioning" color="indigo" />
             <Arrow />
-            <StateBox label="Active" color="#10b981" />
+            <StateBox label="Active" color="emerald" />
             <Arrow />
-            <StateBox label="Suspended" color="#f59e0b" />
+            <StateBox label="Suspended" color="amber" />
             <Arrow />
-            <StateBox label="Archived" color="#64748b" />
+            <StateBox label="Archived" color="slate" />
           </div>
         </div>
       </section>
 
-      <section style={{ marginBottom: '4rem' }}>
-        <h2 style={{ fontSize: '2rem', marginBottom: '1.5rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem' }}>3.2 Suspension & Retention</h2>
-        <p style={{ marginBottom: '1.5rem' }}>
+      <section>
+        <h2 className="text-2xl md:text-3xl mb-6 border-b border-white/10 pb-2">3.2 Suspension & Retention</h2>
+        <p className="text-text-dim mb-6">
           When a tenant is suspended, API access is revoked at the gateway level while background workers finish data processing.
         </p>
-        <ul style={{ display: 'flex', flexDirection: 'column', gap: '1rem', color: 'var(--text-dim)' }}>
-          <li><strong>Retention:</strong> Data is kept for 90 days after subscription ends.</li>
-          <li><strong>Purging:</strong> Permanent erasure occurs after 100 days (GDPR compliant).</li>
-          <li><strong>Export:</strong> Tenants can request a full DB dump before final deletion.</li>
+        <ul className="space-y-4 text-text-dim list-disc list-inside px-4">
+          <li><strong className="text-text">Retention:</strong> Data is kept for 90 days after subscription ends.</li>
+          <li><strong className="text-text">Purging:</strong> Permanent erasure occurs after 100 days (GDPR compliant).</li>
+          <li><strong className="text-text">Export:</strong> Tenants can request a full DB dump before final deletion.</li>
         </ul>
       </section>
     </div>
   );
 };
 
-const StateBox = ({ label, color }) => (
-  <div style={{ padding: '1rem', border: `1px solid ${color}`, borderRadius: '0.5rem', color: color, fontWeight: '600', minWidth: '120px' }}>
-    {label}
-  </div>
-);
+const StateBox = ({ label, color }) => {
+  const colorMap = {
+    indigo: 'border-indigo-500 text-indigo-400',
+    emerald: 'border-emerald-500 text-emerald-400',
+    amber: 'border-amber-500 text-amber-400',
+    slate: 'border-slate-500 text-slate-400',
+  };
+  
+  return (
+    <div className={`px-6 py-3 border rounded-xl font-bold min-w-[140px] text-center shadow-lg shadow-${color}-900/10 ${colorMap[color]}`}>
+      {label}
+    </div>
+  );
+};
 
-const Arrow = () => <div style={{ color: 'var(--border)' }}>→</div>;
+const Arrow = () => <div className="text-white/20 text-xl font-bold md:rotate-0 rotate-90">→</div>;
 
 export default Lifecycle;

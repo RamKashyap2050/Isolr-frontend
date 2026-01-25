@@ -28,8 +28,11 @@ function App() {
 
   if (isResolving) {
     return (
-      <div style={{ background: '#030712', color: 'white', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <p className="gradient-text" style={{ fontSize: '1.5rem' }}>Initializing Isolr...</p>
+      <div className="bg-bg min-h-screen flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
+          <p className="gradient-text text-xl font-bold tracking-tight">Initializing Isolr...</p>
+        </div>
       </div>
     );
   }
