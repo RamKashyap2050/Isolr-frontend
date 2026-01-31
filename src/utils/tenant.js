@@ -13,15 +13,28 @@ export const getTenantSlug = () => {
 
     const hostParts = hostname.split('.');
     
-    // Production: tenant.isolr.ca (3 parts: [tenant, isolr, ca])
+    // Support for isolr.ca (target domain)
     if (hostname.endsWith('.isolr.ca')) {
-        const slug = hostParts[0];
-        if (slug === 'www' || slug === 'isolr') return null;
-        return slug;
+        // tenant.isolr.ca -> hostParts: ["tenant", "isolr", "ca"]
+        if (hostParts.length >= 3) {
+            const slug = hostParts[0];
+            if (slug === 'www' || slug === 'isolr' || slug === 'api') return null;
+            return slug;
+        }
+    }
+
+    // Support for Vercel deployment subdomains (e.g., tenant.isolr-frontend.vercel.app)
+    if (hostname.endsWith('.vercel.app')) {
+        // base is isolr-frontend.vercel.app (3 parts)
+        // tenant.isolr-frontend.vercel.app (4 parts)
+        if (hostParts.length >= 4) {
+            const slug = hostParts[0];
+            if (slug === 'isolr-frontend') return null;
+            return slug;
+        }
     }
 
     // Local Subdomain development: tenant.localhost (2 parts: [tenant, localhost])
-    // This part is for users who DO use the hosts file, supporting both worlds.
     if (hostname.endsWith('.localhost') && hostParts.length === 2) {
         return hostParts[0];
     }
@@ -32,5 +45,6 @@ export const getTenantSlug = () => {
 export const getBaseDomain = () => {
     const hostname = window.location.hostname;
     if (hostname.includes('localhost')) return 'localhost:5173';
+    if (hostname.endsWith('.vercel.app')) return 'isolr-frontend.vercel.app';
     return 'isolr.ca';
 };
