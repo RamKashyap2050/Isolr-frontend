@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import Dashboard from './pages/Dashboard';
+import UserFleet from './pages/UserFleet';
 import DocsLayout from './pages/docs/DocsLayout';
 import Migration from './pages/docs/Migration';
 import Observability from './pages/docs/Observability';
@@ -48,6 +49,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/t/:tenantId" element={<Dashboard />} />
+        <Route path="/t/:tenantId/users" element={<UserFleet />} />
         
         {/* Documentation Section */}
         <Route path="/docs" element={<DocsLayout />}>
