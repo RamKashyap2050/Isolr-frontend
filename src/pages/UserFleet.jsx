@@ -4,7 +4,7 @@ import Sidebar from '../components/dashboard/Sidebar';
 import DashboardHeader from '../components/dashboard/DashboardHeader';
 import UserList from '../components/dashboard/UserList';
 
-const UserFleet = () => {
+const UserFleet = ({ tenantId: propTenantId }) => {
     const {
         tenantId,
         users,
@@ -13,7 +13,7 @@ const UserFleet = () => {
         health,
         isSidebarOpen,
         setIsSidebarOpen
-    } = useUserFleetLogic();
+    } = useUserFleetLogic(propTenantId);
 
     return (
         <div className="flex flex-col md:flex-row min-h-screen bg-bg text-text">

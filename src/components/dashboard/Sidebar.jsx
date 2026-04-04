@@ -1,14 +1,23 @@
 import React from 'react';
 import { Database, Users, Settings } from 'lucide-react';
 import { Link, useLocation, useParams } from 'react-router-dom';
+import { getTenantSlug } from '../../utils/tenant';
 
 const Sidebar = ({ isSidebarOpen }) => {
     const { pathname } = useLocation();
-    const { tenantId } = useParams();
+    const { tenantId: pathTenantId } = useParams();
+    
+    const tenantSlug = getTenantSlug();
+    const isSubdomainMode = !!tenantSlug;
+    const tenantId = pathTenantId || tenantSlug;
+
+    const basePath = isSubdomainMode ? '' : `/t/${tenantId}`;
 
     const isActive = (path) => pathname.includes(path);
-    const isDataPlane = pathname === `/t/${tenantId}` || pathname === `/t/${tenantId}/`;
-    const isUserFleet = pathname.includes(`/t/${tenantId}/users`);
+    const isDataPlane = isSubdomainMode 
+        ? (pathname === '/' || pathname === '') 
+        : (pathname === `/t/${tenantId}` || pathname === `/t/${tenantId}/`);
+    const isUserFleet = pathname.includes(`${basePath}/users`);
 
     return (
         <aside className={`
@@ -24,12 +33,12 @@ const Sidebar = ({ isSidebarOpen }) => {
             </div>
             
             <nav className="flex flex-col gap-2 flex-1">
-                <Link to={`/t/${tenantId}`} className={`px-4 py-3 rounded-xl font-bold transition-all duration-200 flex items-center gap-3 ${isDataPlane ? 'bg-primary/10 text-primary shadow-sm ring-1 ring-primary/20' : 'text-text-dim hover:bg-white/5 hover:text-white'}`}>
+                <Link to={basePath || '/'} className={`px-4 py-3 rounded-xl font-bold transition-all duration-200 flex items-center gap-3 ${isDataPlane ? 'bg-primary/10 text-primary shadow-sm ring-1 ring-primary/20' : 'text-text-dim hover:bg-white/5 hover:text-white'}`}>
                     <div className={`w-1.5 h-1.5 rounded-full ${isDataPlane ? 'bg-primary animate-pulse' : 'bg-white/20'}`}></div>
                     Data Plane
                 </Link>
                 
-                <Link to={`/t/${tenantId}/users`} className={`px-4 py-3 rounded-xl font-bold transition-all duration-200 flex items-center gap-3 ${isUserFleet ? 'bg-primary/10 text-primary shadow-sm ring-1 ring-primary/20' : 'text-text-dim hover:bg-white/5 hover:text-white'}`}>
+                <Link to={`${basePath}/users`} className={`px-4 py-3 rounded-xl font-bold transition-all duration-200 flex items-center gap-3 ${isUserFleet ? 'bg-primary/10 text-primary shadow-sm ring-1 ring-primary/20' : 'text-text-dim hover:bg-white/5 hover:text-white'}`}>
                     <div className={`w-1.5 h-1.5 rounded-full ${isUserFleet ? 'bg-primary animate-pulse' : 'bg-white/20'}`}></div>
                     User Fleet
                 </Link>

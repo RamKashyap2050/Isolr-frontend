@@ -43,10 +43,9 @@ function App() {
     return (
       <BrowserRouter>
         <Routes>
-          <Route path="/t/:tenantId" element={<Dashboard />} />
-          <Route path="/t/:tenantId/users" element={<UserFleet />} />
-          <Route path="/" element={<Navigate to={`/t/${tenantSlug}`} replace />} />
-          <Route path="*" element={<Navigate to={`/t/${tenantSlug}`} replace />} />
+          <Route path="/" element={<Dashboard tenantId={tenantSlug} />} />
+          <Route path="/users" element={<UserFleet tenantId={tenantSlug} />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
     );
