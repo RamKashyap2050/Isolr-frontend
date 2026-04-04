@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Rocket, Shield, Cpu, ArrowRight } from 'lucide-react';
 import { Turnstile } from '@marsidev/react-turnstile';
 import api from '../utils/api';
+import { getBaseDomain } from '../utils/tenant';
 
 const LandingPage = () => {
     const navigate = useNavigate();
@@ -29,9 +30,18 @@ const LandingPage = () => {
             const data = response.data;
             setResult(data);
             
-            if (data.tenantId) {
+            if (data.subdomain) {
                 setTimeout(() => {
-                    navigate(`/t/${data.tenantId}`);
+                    const hostname = window.location.hostname;
+                    if (hostname === 'localhost' || hostname === '127.0.0.1') {
+                        // Keep path-routing for standard local development
+                        navigate(`/t/${data.subdomain}`);
+                    } else {
+                        // Hard redirect to subdomain in production/vercel/etc
+                        const baseDomain = getBaseDomain();
+                        const protocol = window.location.protocol;
+                        window.location.href = `${protocol}//${data.subdomain}.${baseDomain}`;
+                    }
                 }, 2000);
             }
         } catch (error) {
