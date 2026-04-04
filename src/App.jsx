@@ -40,7 +40,16 @@ function App() {
 
   // --- SUBDOMAIN MODE (Production) ---
   if (tenantSlug) {
-    return <Dashboard tenantId={tenantSlug} />;
+    return (
+      <BrowserRouter>
+        <Routes>
+          <Route path="/t/:tenantId" element={<Dashboard />} />
+          <Route path="/t/:tenantId/users" element={<UserFleet />} />
+          <Route path="/" element={<Navigate to={`/t/${tenantSlug}`} replace />} />
+          <Route path="*" element={<Navigate to={`/t/${tenantSlug}`} replace />} />
+        </Routes>
+      </BrowserRouter>
+    );
   }
 
   // --- PATH MODE (Development / Root Domain) ---
